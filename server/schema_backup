@@ -1,0 +1,359 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.2
+-- Dumped by pg_dump version 14.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.comments (
+    comment_id integer NOT NULL,
+    rating integer NOT NULL,
+    comment_body character varying(255) NOT NULL,
+    event_id integer NOT NULL,
+    email character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.comments OWNER TO postgres;
+
+--
+-- Name: Comments_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Comments_comment_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Comments_comment_id_seq" OWNER TO postgres;
+
+--
+-- Name: Comments_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Comments_comment_id_seq" OWNED BY public.comments.comment_id;
+
+
+--
+-- Name: RSO_Members; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."RSO_Members" (
+    "Email" character varying(255) NOT NULL,
+    "RSO_ID" integer NOT NULL
+);
+
+
+ALTER TABLE public."RSO_Members" OWNER TO postgres;
+
+--
+-- Name: RSOs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."RSOs" (
+    "RSO_ID" integer NOT NULL,
+    school_domain character varying(255) NOT NULL,
+    "RSO_name" character varying(255) NOT NULL,
+    "Email" character varying(255) NOT NULL,
+    number_of_members integer DEFAULT 0 NOT NULL,
+    is_active boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public."RSOs" OWNER TO postgres;
+
+--
+-- Name: RSOs_RSO_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."RSOs_RSO_ID_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."RSOs_RSO_ID_seq" OWNER TO postgres;
+
+--
+-- Name: RSOs_RSO_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."RSOs_RSO_ID_seq" OWNED BY public."RSOs"."RSO_ID";
+
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.events (
+    event_id integer NOT NULL,
+    location character varying(255) NOT NULL,
+    event_name character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    "RSO_ID" integer NOT NULL,
+    visibility_level integer NOT NULL,
+    datetime timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.events OWNER TO postgres;
+
+--
+-- Name: events_events_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.events_events_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.events_events_id_seq OWNER TO postgres;
+
+--
+-- Name: events_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.events_events_id_seq OWNED BY public.events.event_id;
+
+
+--
+-- Name: locations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.locations (
+    lname character varying(255) NOT NULL,
+    address character varying(255) NOT NULL,
+    longitude double precision NOT NULL,
+    latitude double precision NOT NULL
+);
+
+
+ALTER TABLE public.locations OWNER TO postgres;
+
+--
+-- Name: superadmins; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.superadmins (
+    email character varying(255) NOT NULL,
+    school_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    school_webpage_url character varying(255) DEFAULT ''::character varying NOT NULL,
+    school_photo_url character varying(255) DEFAULT ''::character varying NOT NULL,
+    school_domain character varying(255) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE public.superadmins OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    school_domain character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: RSOs RSO_ID; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSOs" ALTER COLUMN "RSO_ID" SET DEFAULT nextval('public."RSOs_RSO_ID_seq"'::regclass);
+
+
+--
+-- Name: comments comment_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN comment_id SET DEFAULT nextval('public."Comments_comment_id_seq"'::regclass);
+
+
+--
+-- Name: events event_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN event_id SET DEFAULT nextval('public.events_events_id_seq'::regclass);
+
+
+--
+-- Name: comments Comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT "Comments_pkey" PRIMARY KEY (comment_id);
+
+
+--
+-- Name: RSOs RSOs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSOs"
+    ADD CONSTRAINT "RSOs_pkey" PRIMARY KEY ("RSO_ID");
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (event_id);
+
+
+--
+-- Name: RSO_Members key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSO_Members"
+    ADD CONSTRAINT key PRIMARY KEY ("Email", "RSO_ID");
+
+
+--
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (lname);
+
+
+--
+-- Name: superadmins superadmins_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.superadmins
+    ADD CONSTRAINT superadmins_pkey PRIMARY KEY (email);
+
+
+--
+-- Name: RSOs unique_rso_names_within_school; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSOs"
+    ADD CONSTRAINT unique_rso_names_within_school UNIQUE ("RSO_name", school_domain);
+
+
+--
+-- Name: events unique_time_location; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT unique_time_location UNIQUE (datetime, location);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (email);
+
+
+--
+-- Name: events visibility_level_range; Type: CHECK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.events
+    ADD CONSTRAINT visibility_level_range CHECK (((1 <= visibility_level) AND (visibility_level <= 3))) NOT VALID;
+
+
+--
+-- Name: RSO_Members Email_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSO_Members"
+    ADD CONSTRAINT "Email_FK" FOREIGN KEY ("Email") REFERENCES public.users(email);
+
+
+--
+-- Name: events RSO_ID_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT "RSO_ID_FK" FOREIGN KEY ("RSO_ID") REFERENCES public."RSOs"("RSO_ID") NOT VALID;
+
+
+--
+-- Name: RSO_Members RSO_ID_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSO_Members"
+    ADD CONSTRAINT "RSO_ID_FK" FOREIGN KEY ("RSO_ID") REFERENCES public."RSOs"("RSO_ID") NOT VALID;
+
+
+--
+-- Name: RSOs email_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."RSOs"
+    ADD CONSTRAINT "email_FK" FOREIGN KEY ("Email") REFERENCES public.users(email) NOT VALID;
+
+
+--
+-- Name: comments email_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT "email_FK" FOREIGN KEY (email) REFERENCES public.users(email) NOT VALID;
+
+
+--
+-- Name: comments events_id_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT "events_id_FK" FOREIGN KEY (event_id) REFERENCES public.events(event_id) NOT VALID;
+
+
+--
+-- Name: events events_location_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_location_fkey FOREIGN KEY (location) REFERENCES public.locations(lname);
+
+
+--
+-- Name: superadmins superadmins_email_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.superadmins
+    ADD CONSTRAINT superadmins_email_fkey FOREIGN KEY (email) REFERENCES public.users(email);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

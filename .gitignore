@@ -1,0 +1,6 @@
+server/node_modules
+client/node_modules
+.vscode/
+server/.env
+server/database.sql
+server/db.js
