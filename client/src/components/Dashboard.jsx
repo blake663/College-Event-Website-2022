@@ -11,7 +11,7 @@ const Dashboard = ({ email, handleLogOut }) => {
 
   return (
     <Fragment>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <a href="#" className="navbar-brand">Frontend Bootcamp</a>
 
@@ -33,12 +33,12 @@ const Dashboard = ({ email, handleLogOut }) => {
             </ul>
           </div>
         </div>
-      </nav>
-
-      {/* <nav className="navbar navbar-light bg-light px-2">
-        <h3>Hi {email}</h3>
-        <button className="btn-sm btn btn-outline-secondary" type="button" onClick={handleLogOut}>Log Out</button>
       </nav> */}
+
+      <nav className="navbar navbar-light bg-light text-dark px-2">
+        <h3 className="navbar-text">Hi {email}</h3>
+        <button className="btn-sm btn btn-warning" type="button" onClick={handleLogOut}>Log Out</button>
+      </nav>
       <h1 className="my-3">Dashboard</h1>
       <InputLocation />
       <CreateRSO email={email} />

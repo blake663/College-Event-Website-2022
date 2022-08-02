@@ -39,7 +39,7 @@ function App() {
 
   //could pass email as prop to go with the logout button in the navbar
   return (
-    <div className="container">
+    <div className="container-fluid">
       {
         loggedIn
           ?

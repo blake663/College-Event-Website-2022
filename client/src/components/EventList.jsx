@@ -86,16 +86,20 @@ const EventList = ({ email }) => {
   }
 
   return (
-    <>
+    <div className="mx-auto" style={{maxWidth: "500px"}}>
       <h3>Events: </h3>
       <div className="accordion">
         {
           events.filter(filterEvents).map(event =>
             <div className="accordion-item" key={event.event_id}>
               <h2 className="accordion-header">
-                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${event.event_id}`}>
+                {/* <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${event.event_id}`}>
                   <strong style={{width:"200px"}}>{event.event_name}</strong>
                   <span style={{marginLeft:"auto"}}>{event.datetime.substr(0, event.datetime.length-8)}</span>
+                </button> */}
+                <button className="accordion-button collapsed d-flex flex-row p-relative" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${event.event_id}`} >
+                  <strong>{event.event_name}</strong>
+                  <span style={{position: "absolute", right: "50px"}}>{event.datetime.substr(0, event.datetime.length-8)}</span>
                 </button>
               </h2>
               <div id={`collapse${event.event_id}`} className="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -109,7 +113,7 @@ const EventList = ({ email }) => {
           )
         }
       </div>
-    </>
+    </div>
   );
 };
 

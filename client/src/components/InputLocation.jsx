@@ -28,26 +28,28 @@ const InputLocation = () => {
 
 
   return (
-    <div className="my-4">
+    <div className="my-4 col-md-6 mx-auto border border-2 p-3 rounded-3 shadow">
     <h3>Add a new location</h3>
       <form>
-        <label style={{display:"block"}}>Name:
-        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+        <label className='form-label d-block'>Name:
+        <input type="text" value={name} onChange={e => setName(e.target.value)} className="form-control" />
+        </label>
+        
+        <div className="row gx-2">
+          <label className='form-label col-12 col-sm-6'>Latitude:
+          <input type="number" step="any" value={lat} onChange={e => setLat(e.target.value)} className="form-control" />
+          </label>
+
+          <label className='form-label col-12 col-sm-6'>Longitude:
+          <input type="number" step="any" value={lon} onChange={e => setLon(e.target.value)} className="form-control" />
+        </label>
+        </div>
+
+        <label className='form-label col-12'>Address: 
+        <input type="text" value={address} onChange={e => setAddress(e.target.value)} className="form-control" />
         </label>
 
-        <label style={{display:"block"}}>Latitude:
-        <input type="number" step="any" value={lat} onChange={e => setLat(e.target.value)} />
-        </label>
-
-        <label style={{display:"block"}}>Longitude:
-        <input type="number" step="any" value={lon} onChange={e => setLon(e.target.value)} />
-        </label>
-
-        <label style={{display:"block"}}>Address: 
-        <input type="text" value={address} onChange={e => setAddress(e.target.value)} />
-        </label>
-
-        <input type="submit" value="Submit" onClick={handleSubmit} />
+        <input type="submit" value="Submit" onClick={handleSubmit} className="btn btn-primary"/>
       </form>
     </div>
   )

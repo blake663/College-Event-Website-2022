@@ -60,19 +60,19 @@ const CreateEvent = ({ email }) => {
 
   return (
     <>
-      <div className="mb-4">
+      <div className="my-4 col-md-6 mx-auto border border-2 p-3 rounded-3 shadow">
         <h3>Create Event</h3>
         <form onSubmit={handleSubmit}>
-          <label style={{display:"block"}}>Event Name: 
-            <input required type="text" value={name} onChange={e => setName(e.target.value)} />
+          <label className="form-label w-100">Event Name: 
+            <input required type="text" value={name} onChange={e => setName(e.target.value)} className="form-control" />
           </label>
 
-          <label style={{display:"block"}}>Date and time: 
-            <input required type="datetime-local" value={dateTime} onChange={e => handleSetDateTime(e.target.value)} />
+          <label className="form-label w-100">Date and time: 
+            <input required type="datetime-local" value={dateTime} onChange={e => handleSetDateTime(e.target.value)} className="form-control"/>
           </label>
 
-          <label style={{display:"block"}}>Location:
-            <select required value={location} onChange={e => setLocation(e.target.value)}>
+          <label className="form-label w-100">Location:
+            <select required value={location} onChange={e => setLocation(e.target.value)} className="form-select" >
               <option></option>
               {
                 locationsList.map((item, index) => 
@@ -82,12 +82,12 @@ const CreateEvent = ({ email }) => {
             </select>
           </label>
 
-          <label style={{display:"block"}}>Description:
-            <textarea value={description} onChange={e => setDescription(e.target.value)} style={{width:"300px"}}/>
+          <label className="form-label w-100">Description:
+            <textarea value={description} onChange={e => setDescription(e.target.value)} className="form-control" />
           </label>
 
-          <label style={{display:"block"}}>RSO:
-            <select required value={rso_id} onChange={e => setRso_id(e.target.value)}>
+          <label className="form-label w-100">RSO:
+            <select required value={rso_id} onChange={e => setRso_id(e.target.value)} className="form-select">
               <option></option>
               {
                 rsos.filter(x => x.Email == email).map((item, index) =>
@@ -96,22 +96,26 @@ const CreateEvent = ({ email }) => {
               }
             </select>
           </label>
-          <fieldset required>
-            <legend>Visibility:</legend>
+          <p className="mt-3 mb-0">Visibility:</p>
 
-            <label>RSO:
-              <input required type="radio" name="vis_radio" value={visibility_level} onChange={e => setVisibility_level(1)}/>
+          <div className="form-check">
+            <label className="form-check-label">RSO
+              <input required type="radio" name="vis_radio" value="1" onChange={e => setVisibility_level(1)} className="form-check-input" />
             </label>
+          </div>
 
-            <label>Private:
-              <input required type="radio" name="vis_radio" value={visibility_level} onChange={e => setVisibility_level(2)}/>
+          <div className="form-check">
+            <label className="form-check-label">Private
+              <input required type="radio" name="vis_radio" value="2" onChange={e => setVisibility_level(2)} className="form-check-input" />
             </label>
+          </div>
 
-            <label>Public:
-              <input required type="radio" name="vis_radio" value={visibility_level} onChange={e => setVisibility_level(3)}/>
+          <div className="form-check">
+            <label className="form-check-label">Public
+              <input required type="radio" name="vis_radio" value="3" onChange={e => setVisibility_level(3)} className="form-check-input" />
             </label>
-          </fieldset>
-          <button>Submit</button>
+          </div>
+          <button className="btn btn-primary">Submit</button>
         </form>
       </div>
     </>

@@ -7,6 +7,7 @@ const Login = ({ handleLogin }) => {
   const [ radioOption, setRadioOption ] = useState(1);
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const [ error, setError ] = useState('');
 
   function validateEmail(email) {
     // [ name, school ] = email.split('@');
@@ -15,6 +16,7 @@ const Login = ({ handleLogin }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     console.log({radioOption, email, password});
+    setError('');
     // include boolean superAdmin in the body
     if (radioOption==1) {
       try {
@@ -28,6 +30,8 @@ const Login = ({ handleLogin }) => {
         console.log("boolean result", loggedIn);
         if (loggedIn == true) {
           handleLogin(email, password);
+        } else {
+          setTimeout(() => setError('*Invalid login'), 200);
         }
       } catch (err) {
         console.error(err.message);
@@ -64,6 +68,11 @@ const Login = ({ handleLogin }) => {
     }
   };
 
+  const handleRadioChange = (option) => {
+    setRadioOption(option);
+    setError('');
+  }
+
   return (
     <>
       <div className='mx-auto mt-5' style={{width: "400px"}}>
@@ -76,17 +85,18 @@ const Login = ({ handleLogin }) => {
           <div className="mb-3">
             <label className="form-label">Password:</label>
             <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password" />
+          <div className="text-danger "><em>{error}</em></div>
           </div>
           <div className="form-check">
-            <input type="radio" className="form-check-input" name="loginFormRadio" checked={radioOption==1} onChange={()=>setRadioOption(1)} />Log In
+            <input type="radio" className="form-check-input" name="loginFormRadio" checked={radioOption==1} onChange={()=>handleRadioChange(1)} />Log In
             <label className="form-check-label" ></label>
           </div>
           <div className="form-check">
-            <input type="radio" className="form-check-input" name="loginFormRadio" checked={radioOption==2} onChange={()=>setRadioOption(2)} />Sign Up as student
+            <input type="radio" className="form-check-input" name="loginFormRadio" checked={radioOption==2} onChange={()=>handleRadioChange(2)} />Sign Up as student
             <label className="form-check-label" ></label>
           </div>
           <div className="form-check">
-            <input type="radio" className="form-check-input" name="loginFormRadio" checked={radioOption==3} onChange={()=>setRadioOption(3)} />Sign Up as super admin
+            <input type="radio" className="form-check-input" name="loginFormRadio" checked={radioOption==3} onChange={()=>handleRadioChange(3)} />Sign Up as super admin
             <label className="form-check-label" ></label>
           </div>
           <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
