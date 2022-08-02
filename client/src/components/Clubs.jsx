@@ -49,23 +49,16 @@ const Clubs = ({ email }) => {
     }
   }
 
-  return <>
-    <h3>Manage RSO Membership:</h3>
-    <table>
-      <tbody>
-        {rsoList.map((item, index) => 
-          <tr key={index}>
-            <td style={{paddingRight: "20px"}}>
-              {item.RSO_name}: 
-            </td>
-            <td>
-              <input type="checkbox" checked={isMember[index]} key={index}onChange={e => handle(e, index)}/>
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
-  </>
+  return <div className="mx-auto border border-2 rounded col-md-6 shadow my-4 p-3">
+    <h3>Manage RSO Membership</h3>
+    {rsoList.map((item, index) => 
+      <div className="form-check" key={index}>
+        <label class="form-check-label">{item.RSO_name}: 
+          <input class="form-check-input" type="checkbox" checked={isMember[index]} key={index}onChange={e => handle(e, index)}/>
+        </label>
+      </div>
+    )}
+  </div>
 }
 
 export default Clubs;
